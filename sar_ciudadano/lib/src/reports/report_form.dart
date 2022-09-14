@@ -21,6 +21,7 @@ class FormScreen extends StatelessWidget {
             height: 170.0,
             color: Color.fromRGBO(253, 112, 19, 1),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(left: 20.0,top: 20.0),
@@ -75,6 +76,9 @@ class FormScreen extends StatelessWidget {
                   children: <Widget>[
                     Container(
                     height: 200.0,
+                    alignment: Alignment.topLeft,
+                    width: 700.0,
+                    padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         color: Color.fromRGBO(238, 238, 238, 1),
                         borderRadius: BorderRadius.only(
@@ -82,7 +86,75 @@ class FormScreen extends StatelessWidget {
                           topRight: Radius.circular(30.0),
                         )
                       ),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children:[
+                            Text(
+                            "Captura que esta pasando alrededor de ti",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Color.fromRGBO(40, 54, 84, 1),
+                            ),
+                          ),
+                          Container(height: 50.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:[
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                    child: Container(
+                                      color: Color.fromRGBO(40, 54, 84, 1),
+                                      width: 60,
+                                      height: 60,
+                                      child: IconButton(
+                                        icon: Icon(Icons.camera,color: Colors.white, size: 40,),
+                                        tooltip: 'Abrir Cámara',
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                ),
+                                Container(width: 100.0),
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                    child: Container(
+                                      color: Color.fromRGBO(40, 54, 84, 1),
+                                      width: 60,
+                                      height: 60,
+                                      child: IconButton(
+                                        icon: Icon(Icons.video_camera_front,color: Colors.white, size: 40,),
+                                        tooltip: 'Grabar Video',
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                ),
+                                Container(width: 100.0),
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                    child: Container(
+                                      color: Color.fromRGBO(40, 54, 84, 1),
+                                      width: 60,
+                                      height: 60,
+                                      child: IconButton(
+                                        icon: Icon(Icons.mic,color: Colors.white, size: 40,),
+                                        tooltip: 'Grabar Audio',
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                ),
+                              ],
+                            ),
+                          
+                        ]
+                        ),
+                      ),
                     ),
+                    
                   ],
                 ),
               ),
