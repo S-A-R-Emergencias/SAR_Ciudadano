@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() => runApp(const FormScreen());
 
 class FormScreen extends StatelessWidget {
   const FormScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
+    final _initialCameraPosition = CameraPosition(
+    target: LatLng(0,0),);
     return Scaffold(
       backgroundColor: Color.fromRGBO(40, 54, 84, 1),
       appBar: AppBar(
@@ -16,7 +19,7 @@ class FormScreen extends StatelessWidget {
         backgroundColor:Color.fromRGBO(253, 112, 19, 1),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Container(
             height: 170.0,
             color: Color.fromRGBO(253, 112, 19, 1),
@@ -63,21 +66,70 @@ class FormScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: 
-              Column(
+              child:
+              ListView(
                 children:<Widget>[Container(
-                height: 500.0,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(40, 54, 84, 1),
-                ),
-              ),
-              Expanded(
+                ),          
                 child: Column(
                   children: <Widget>[
+                    Container(height:20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FloatingActionButton(
+                        onPressed: () {
+                          // Add your onPressed code here!
+                        },
+                        backgroundColor: Color.fromRGBO(253, 112, 19, 1),
+                        child: const Icon(Icons.send),
+                      ),
+                      ],
+                    ),
+                    Container(height:20),
+                    ClipRRect(
+                      borderRadius:
+                      BorderRadius.circular(10),
+                        child: Container(
+                          color: Color.fromARGB(255, 0, 77, 244),
+                          width: 400,
+                          height: 200,
+                          child: GoogleMap(initialCameraPosition: _initialCameraPosition,),
+                        ),
+                    ),
+                    Container(height: 100,),
+                    SizedBox(
+                      width:400,
+                      child:TextFormField(
+                            maxLines: 6,
+                            decoration: const InputDecoration(
+                              hintText: '¿Cuál es el problema?',
+                              labelText: 'Descripción',
+                              filled: true,
+                              fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            ),
+                            style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value == null) ? 'No dejes vacio este espacio' : null;
+                            },
+                          ), 
+                      ),
+                  ],
+                ),
+              ),
+              ],
+            ),
+          ),
+          Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
                     Container(
-                    height: 200.0,
-                    alignment: Alignment.topLeft,
-                    width: 700.0,
+                    width: 800.0,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         color: Color.fromRGBO(238, 238, 238, 1),
@@ -86,81 +138,73 @@ class FormScreen extends StatelessWidget {
                           topRight: Radius.circular(30.0),
                         )
                       ),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children:[
-                            Text(
-                            "Captura que esta pasando alrededor de ti",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Color.fromRGBO(40, 54, 84, 1),
-                            ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children:[
+                          Text(
+                          "Captura que esta pasando alrededor de ti",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Color.fromRGBO(40, 54, 84, 1),
                           ),
-                          Container(height: 50.0),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children:[
-                                ClipRRect(
-                                  borderRadius:
-                                  BorderRadius.circular(10),
-                                    child: Container(
-                                      color: Color.fromRGBO(40, 54, 84, 1),
-                                      width: 60,
-                                      height: 60,
-                                      child: IconButton(
-                                        icon: Icon(Icons.camera,color: Colors.white, size: 40,),
-                                        tooltip: 'Abrir Cámara',
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                ),
-                                Container(width: 100.0),
-                                ClipRRect(
-                                  borderRadius:
-                                  BorderRadius.circular(10),
-                                    child: Container(
-                                      color: Color.fromRGBO(40, 54, 84, 1),
-                                      width: 60,
-                                      height: 60,
-                                      child: IconButton(
-                                        icon: Icon(Icons.video_camera_front,color: Colors.white, size: 40,),
-                                        tooltip: 'Grabar Video',
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                ),
-                                Container(width: 100.0),
-                                ClipRRect(
-                                  borderRadius:
-                                  BorderRadius.circular(10),
-                                    child: Container(
-                                      color: Color.fromRGBO(40, 54, 84, 1),
-                                      width: 60,
-                                      height: 60,
-                                      child: IconButton(
-                                        icon: Icon(Icons.mic,color: Colors.white, size: 40,),
-                                        tooltip: 'Grabar Audio',
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          
-                        ]
                         ),
+                        Container(height:20),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                  child: Container(
+                                    color: Color.fromRGBO(40, 54, 84, 1),
+                                    width: 60,
+                                    height: 60,
+                                    child: IconButton(
+                                      icon: Icon(Icons.camera,color: Colors.white, size: 40,),
+                                      tooltip: 'Abrir Cámara',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                              ),
+                              Container(width: 100.0),
+                              ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                  child: Container(
+                                    color: Color.fromRGBO(40, 54, 84, 1),
+                                    width: 60,
+                                    height: 60,
+                                    child: IconButton(
+                                      icon: Icon(Icons.video_camera_front,color: Colors.white, size: 40,),
+                                      tooltip: 'Grabar Video',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                              ),
+                              Container(width: 100.0),
+                              ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                  child: Container(
+                                    color: Color.fromRGBO(40, 54, 84, 1),
+                                    width: 60,
+                                    height: 60,
+                                    child: IconButton(
+                                      icon: Icon(Icons.mic,color: Colors.white, size: 40,),
+                                      tooltip: 'Grabar Audio',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                              ),
+                            ],
+                          ),
+                       ]
                       ),
                     ),
                     
                   ],
                 ),
-              ),
-              ],
-            ),
-          ),
         ],
       )
     );
