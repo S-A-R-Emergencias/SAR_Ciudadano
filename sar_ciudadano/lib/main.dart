@@ -3,6 +3,7 @@ import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
+import 'package:sar_ciudadano/src/reports/report_form.dart';
 
 void main() => runApp(const MyApp());
 
@@ -25,3 +26,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
