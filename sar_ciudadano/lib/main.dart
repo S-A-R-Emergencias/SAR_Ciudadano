@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme.apply(bodyColor: kSecondaryColor),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const ProfileScreen(),
+      home: const SingInScreen (),
     );
   }
 }
