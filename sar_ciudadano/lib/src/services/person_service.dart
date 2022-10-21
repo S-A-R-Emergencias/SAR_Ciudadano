@@ -33,7 +33,7 @@ class PersonService{
   }
 
   Future<http.Response> postPerson(Person p) async {
-    final response =  await http.post(Uri.parse('${Environment.apiURL}/person'), body: p.toInsertJson());
+    final response =  await http.post(Uri.parse('${Environment.apiURL}/person'), body: json.encode(p.toInsertJson()),headers: <String,String>{'Content-Type':'application/json; charset=UTF-8' });
     return response;
   }
 
