@@ -27,7 +27,7 @@ class _SingInScreenState extends State<SingInScreen> {
   
 
   Future<void> login() async {
-    final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${password}'));
+    final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${password}'));//Consulta a api para login
     if(response.statusCode == 200 || response.statusCode == 304)
     {
       var datauser = json.decode(response.body);
@@ -110,6 +110,7 @@ class _SingInScreenState extends State<SingInScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Contraseña',
                       border: InputBorder.none,
