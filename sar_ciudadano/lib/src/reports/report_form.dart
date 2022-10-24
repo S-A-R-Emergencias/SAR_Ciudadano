@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 
 void main() => runApp(const FormScreen());
 
@@ -14,7 +14,18 @@ class FormScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromRGBO(40, 54, 84, 1),
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  PanicScreen())));
+          },
+        ),
         
         backgroundColor:Color.fromRGBO(253, 112, 19, 1),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:flutter/material.dart';
+import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
 
@@ -47,7 +48,7 @@ class ProfilePage extends StatelessWidget {
             Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) =>  SingInScreen())));
+                          builder: ((context) =>  PanicScreen())));
           },
         ),
       ),
