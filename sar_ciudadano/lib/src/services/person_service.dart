@@ -33,12 +33,17 @@ class PersonService{
   }
 
   Future<http.Response> postPerson(Person p) async {
-    final response =  await http.post(Uri.parse('${Environment.apiURL}/person'), body: p.toInsertJson());
+    final response =  await http.post(Uri.parse('${Environment.apiURL}/person'), body: jsonEncode(p.toInsertJson()) ,headers: <String,String>{'Content-Type':'application/json; charset=UTF-8' });
     return response;
   }
 
   Future<http.Response> putPerson(Person p) async {
     final response =  await http.put(Uri.parse('${Environment.apiURL}/person/' + p.id.toString()), body: jsonEncode((p.toInsertJson())),headers: <String,String>{'Content-Type':'application/json; charset=UTF-8' } );
+    return response;
+  }
+
+  Future<http.Response> changePassword(String newPassword,int id) async {
+    final response =  await http.put(Uri.parse('${Environment.apiURL}/person/' + id.toString() + "/" + newPassword));
     return response;
   }
 

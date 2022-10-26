@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/Models/person_model.dart';
 import 'package:sar_ciudadano/constans.dart';
-import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
 import 'package:sar_ciudadano/src/services/person_service.dart';

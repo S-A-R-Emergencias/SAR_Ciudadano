@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
@@ -18,8 +17,6 @@ class PanicScreen extends StatefulWidget {
 class _PanicScreenState extends State<PanicScreen> {
   @override
   Widget build(BuildContext context) {
-    final _initialCameraPosition = CameraPosition(
-    target: LatLng(0,0),);
     return Scaffold(
       backgroundColor: Color.fromRGBO(40, 54, 84, 1),
       body: 
@@ -90,7 +87,7 @@ class _PanicScreenState extends State<PanicScreen> {
               
             
             SlidingUpPanel(
-            minHeight: 50,
+            minHeight: 70,
             maxHeight: 300,
             color: Color.fromRGBO(238, 238, 238, 1),
             borderRadius: BorderRadius.only(
@@ -113,6 +110,12 @@ class _PanicScreenState extends State<PanicScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children:[
+                          Container(height:7,width:100,decoration: BoxDecoration(
+                            color: Color.fromRGBO(40, 54, 84, 1),
+                            borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          Container(height: 12),
                           Text(
                           "REPORTES" ,
                           style: TextStyle(
