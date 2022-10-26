@@ -43,13 +43,10 @@ class ResgisterScreen extends StatelessWidget {
         print("please fill all fields");
       }else{
         try{
-          
           Person PersonNew = new Person(name: name.text,lastName: lastName.text,secondLastName: secondLastName.text,ci: int.parse(ci.text),address: address.text,birthDate:DateTime.now(),email:
           email.text,telephone:int.parse(telephone.text),password: password.text,role: role);
           PersonService service = PersonService();
           var respuesta = await service.postPerson(PersonNew);
-         
-        
         }catch(e){
           print(e);
         }
@@ -69,179 +66,212 @@ class ResgisterScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _MyInput("Nombre",name),
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: name,
+                    decoration: InputDecoration(
+                      hintText: "name",
+                      border: InputBorder.none,
+                      icon: Icon(Icons.account_circle),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            //Registro de telefon dos columnas
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("Apellido Paterno",lastName),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller:lastName,
+                    decoration: InputDecoration(
+                      hintText: 'lastName',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.account_balance),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("Apellido Materno",secondLastName),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: secondLastName,
+                    decoration: InputDecoration(
+                      hintText: 'secondLastName',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.account_balance),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("CI",ci),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: ci,
+                    decoration: InputDecoration(
+                      hintText: 'CI',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.numbers),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("Direccion",address),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: address,
+                    decoration: InputDecoration(
+                      hintText: 'address',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.directions),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("Fecha de Nacimiento",birthDate),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: birthDate,
+                    decoration: InputDecoration(
+                      hintText: 'birthDate',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.date_range),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
             ),
-            _MyInput("Numero de Telefo", telephone),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: telephone,
+                    decoration: InputDecoration(
+                      hintText: 'telephone',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.numbers),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-               height: 15,
+              height: 15,
+            ),Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.email),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            _MyInput("Correo",email),
-             SizedBox(
-               height: 15,
+            SizedBox(
+              height: 15,
+            ),Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xB8F7F7F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    controller: password,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: InputBorder.none,
+                      icon: Icon(Icons.lock),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            _MyInput("Contraseña",password),
-             SizedBox(
-               height: 15,
+            SizedBox(
+              height: 15,
             ),
-
-            // Padding(
-            // padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-                    
-            //         decoration: InputDecoration(
-            //           hintText: "Names",
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.account_circle),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // //Registro de telefon dos columnas
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-                    
-            //         decoration: InputDecoration(
-            //           hintText: 'Phone',
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.phone),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-            //         decoration: InputDecoration(
-            //           hintText: 'Email',
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.email),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-            //         decoration: InputDecoration(
-            //           hintText: 'Password',
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.lock),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-            //         decoration: InputDecoration(
-            //           hintText: 'Confirm Password',
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.lock),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 25),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xB8F7F7F8),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 10),
-            //       child: TextField(
-            //         decoration: InputDecoration(
-            //           hintText: 'Address',
-            //           border: InputBorder.none,
-            //           icon: Icon(Icons.location_on),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            //Boton de crear cuenta
             ButtonTheme(
               child: TextButton(
                 style: ButtonStyle(
@@ -263,53 +293,5 @@ class ResgisterScreen extends StatelessWidget {
       ),
     );
   }
-   Widget _MyInput(String texto,TextEditingController controller_) {
-    return StreamBuilder(
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return Center(
-          child: Container(
-          width: 400,
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: TextField(
-            controller: controller_,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              icon: Icon(Icons.email),
-              hintText: texto,
-              labelText: texto
-            ),
-          ),
-        ),
-        );
-      },
-    );
-  }
-  Widget inputIZI(String texto,TextEditingController controller_){
-    return StreamBuilder(
-      builder: (BuildContext context ,AsyncSnapshot snapshot){
-        return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xB8F7F7F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TextField(
-                    // controller: controller_,
-                    decoration: InputDecoration(
-                      hintText: 'Address',
-                      // hintText: texto,
-                      border: InputBorder.none,
-                      icon: Icon(Icons.location_on),
-                    ),
-                  ),
-                ),
-              ),
-            );
-      },
-    );
-  }
-  
+
 }
