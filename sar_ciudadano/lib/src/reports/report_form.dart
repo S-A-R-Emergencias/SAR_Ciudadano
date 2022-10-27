@@ -12,7 +12,35 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  
+  late MapZoomPanBehavior _zoomPanBehavior;
+  late MapTileLayerController _controller;
+  late MapLatLng _markerPosition;
+  TextEditingController descriptionController = TextEditingController();
+
+  double latitude = 0;
+  double longitude = 0;
+
+  //marcadores del mapa 
+  void updateMarkerChange(Offset position) {
+  _markerPosition = _controller.pixelToLatLng(position);
+  latitude = _markerPosition.latitude;
+  longitude = _markerPosition.longitude;
+  if (_controller.markersCount > 0) {
+    _controller.clearMarkers();
+  }
+  _controller.insertMarker(0);
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _zoomPanBehavior = _CustomZoomPanBehavior()
+        ..onTap = updateMarkerChange;
+    _controller = MapTileLayerController();
+    super.initState();
+    
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,41 +119,46 @@ class _FormScreenState extends State<FormScreen> {
                 child: Column(
                   children: <Widget>[
                     Container(height:20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        FloatingActionButton(
-                        onPressed: () {
-                          // Add your onPressed code here!
-                        },
-                        backgroundColor: Color.fromRGBO(253, 112, 19, 1),
-                        child: const Icon(Icons.send),
-                      ),
-                      ],
-                    ),
                     Container(height:20),
-                    ClipRRect(
-                      borderRadius:
-                      BorderRadius.circular(10),
-                        child: Container(
-                          width: 600,
-                          height: 400,
-                          child:SfMaps(
-                            layers: [
-                                MapTileLayer(
-                                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                    initialFocalLatLng: MapLatLng(27.1751, 78.0421),
-                                    initialZoomLevel: 5,
-                                ),
-                            ],
-                          )
-                        ),
+                    InkWell(
+                      child:
+                        ClipRRect(
+                        borderRadius:
+                        BorderRadius.circular(10),
+                          child: Container(
+                            width: 600,
+                            height: 400,
+                            child:SfMaps(
+                              layers: [
+                                  MapTileLayer(
+                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      initialFocalLatLng: MapLatLng(-17.3914, -66.1683),
+                                      initialZoomLevel: 14,
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                      controller: _controller,
+                                      markerBuilder: (BuildContext context, int index) {
+                                        return MapMarker(
+                                            latitude: _markerPosition.latitude,
+                                            longitude: _markerPosition.longitude,
+                                            child: Icon(
+                                              Icons.location_on,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ));
+                                      },
+                                  ),
+                              ],
+                            )
+                          ),
+                      ),
                     ),
+                    
                     Container(height: 50,),
                     SizedBox(
                       width:400,
                       child:TextFormField(
                             maxLines: 6,
+                            controller: descriptionController,
                             decoration: const InputDecoration(
                               hintText: '¿Cuál es el problema?',
                               labelText: 'Descripción',
@@ -134,14 +167,13 @@ class _FormScreenState extends State<FormScreen> {
                             ),
                             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                             onSaved: (String? value) {
-                              // This optional block of code can be used to run
-                              // code when the user saves the form.
                             },
                             validator: (String? value) {
                               return (value == null) ? 'No dejes vacio este espacio' : null;
                             },
                           ), 
-                      ),
+                    ),
+                    Container(height: 50,),
                   ],
                 ),
               ),
@@ -190,7 +222,7 @@ class _FormScreenState extends State<FormScreen> {
                                     ),
                                   ),
                               ),
-                              Container(width: 100.0),
+                              Container(width: 70.0),
                               ClipRRect(
                                 borderRadius:
                                 BorderRadius.circular(10),
@@ -205,7 +237,7 @@ class _FormScreenState extends State<FormScreen> {
                                     ),
                                   ),
                               ),
-                              Container(width: 100.0),
+                              Container(width: 70.0),
                               ClipRRect(
                                 borderRadius:
                                 BorderRadius.circular(10),
@@ -220,6 +252,14 @@ class _FormScreenState extends State<FormScreen> {
                                     ),
                                   ),
                               ),
+                              Container(width: 70.0),
+                              FloatingActionButton(
+                                onPressed: () {
+                                  
+                                },
+                                backgroundColor: Color.fromRGBO(253, 112, 19, 1),
+                                child: const Icon(Icons.send),
+                              ),
                             ],
                           ),
                        ]
@@ -231,5 +271,21 @@ class _FormScreenState extends State<FormScreen> {
         ],
       )
     );
+    
   }
 }
+
+class _CustomZoomPanBehavior extends MapZoomPanBehavior {
+  _CustomZoomPanBehavior();
+  late MapTapCallback onTap;
+
+  @override
+  void handleEvent(PointerEvent event) {
+    if (event is PointerUpEvent) {
+      onTap(event.localPosition);
+    }
+    super.handleEvent(event);
+  }
+}
+
+typedef MapTapCallback = void Function(Offset position);
