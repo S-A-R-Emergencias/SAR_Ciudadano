@@ -65,14 +65,14 @@ class Person {
         "secondLastName": secondLastName == null ? null : secondLastName,
         "ci": ci == null ? null : ci,
         "address": address == null ? null : address,
-        "birthDate": birthDate == null ? null : birthDate?.toIso8601String(),
+        "birthDate": birthDate == null ? null : birthDate?.toString(),
         "email": email == null ? null : email,
         "telephone": telephone == null ? null : telephone,
         "status": status == null ? null : status,
-        "registerDate": registerDate == null ? null : registerDate?.toIso8601String(),
-        "lastUpdate": lastUpdate == null ? null : lastUpdate?.toIso8601String(),
+        "registerDate": registerDate == null ? null : registerDate?.toString(),
+        "lastUpdate": lastUpdate == null ? null : lastUpdate?.toString(),
         "password": password == null ? null : password,
-        "role": role == null ? null : role,
+        "role": role == null ? null : role.toString(),
     };
 
     Map<String, dynamic> toInsertJson() => {
@@ -81,10 +81,10 @@ class Person {
         "secondLastName": secondLastName == null ? null : secondLastName,
         "ci": ci == null ? null : ci,
         "address": address == null ? null : address,
-        "birthDate": birthDate == null ? null : birthDate?.toIso8601String(),
+        "birthDate": birthDate == null ? null : birthDate!.year.toString() + "-" + birthDate!.month.toString() + "-" + birthDate!.day.toString() ,
         "email": email == null ? null : email,
         "telephone": telephone == null ? null : telephone,
         "password": password == null ? null : password,
-        "role": role == null ? null : role,
+        "role": role == null ? null : role.toString(),
     };
 }

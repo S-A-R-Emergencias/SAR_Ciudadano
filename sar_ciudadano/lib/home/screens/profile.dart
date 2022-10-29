@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:flutter/material.dart';
+import 'package:sar_ciudadano/home/screens/panic_screen.dart';
+import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
+
+import 'edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   String secondLastName = Environment.usersession!.secondLastName == null? "" :Environment.usersession!.secondLastName.toString();
@@ -40,7 +44,12 @@ class ProfilePage extends StatelessWidget {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  PanicScreen())));
+          },
         ),
       ),
       body: Stack(
@@ -135,7 +144,12 @@ class ProfilePage extends StatelessWidget {
                   Icons.edit,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  EditProfile())));
+                },
               ),
             ),
           )

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/Models/person_model.dart';
 import 'package:sar_ciudadano/constans.dart';
+import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class _SingInScreenState extends State<SingInScreen> {
   
 
   Future<void> login() async {
-    final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${password}'));
+    final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${password}'));//Consulta a api para login
     if(response.statusCode == 200 || response.statusCode == 304)
     {
       var datauser = json.decode(response.body);
@@ -110,6 +111,7 @@ class _SingInScreenState extends State<SingInScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Contraseña',
                       border: InputBorder.none,
@@ -137,7 +139,7 @@ class _SingInScreenState extends State<SingInScreen> {
                       Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) =>  ProfilePage()))),
+                          builder: ((context) =>  PanicScreen()))),
                     }
                     else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -212,6 +214,10 @@ class _SingInScreenState extends State<SingInScreen> {
                       const EdgeInsets.all(10)),
                 ),
                 onPressed: () =>  {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  PanicScreen()))),
                 },
                 child: const Text(
                   "Anónimo",
