@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 
-void main() => runApp(const FormScreen());
+void main() => runApp( FormScreen());
 
-class FormScreen extends StatelessWidget {
-  const FormScreen({Key? key}) : super(key: key);
+class FormScreen extends StatefulWidget {
+  FormScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
   
+
   @override
   Widget build(BuildContext context) {
-    final _initialCameraPosition = CameraPosition(
-    target: LatLng(0,0),);
     return Scaffold(
       backgroundColor: Color.fromRGBO(40, 54, 84, 1),
       appBar: AppBar(
@@ -103,13 +108,20 @@ class FormScreen extends StatelessWidget {
                       borderRadius:
                       BorderRadius.circular(10),
                         child: Container(
-                          color: Color.fromARGB(255, 0, 77, 244),
-                          width: 400,
-                          height: 200,
-                          child: GoogleMap(initialCameraPosition: _initialCameraPosition,),
+                          width: 600,
+                          height: 400,
+                          child:SfMaps(
+                            layers: [
+                                MapTileLayer(
+                                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                    initialFocalLatLng: MapLatLng(27.1751, 78.0421),
+                                    initialZoomLevel: 5,
+                                ),
+                            ],
+                          )
                         ),
                     ),
-                    Container(height: 100,),
+                    Container(height: 50,),
                     SizedBox(
                       width:400,
                       child:TextFormField(
