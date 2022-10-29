@@ -68,7 +68,7 @@ class _SingInScreenState extends State<SingInScreen> {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage("assets/img/sar.jpg"),
+                  image: NetworkImage('assets/img/sar.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
