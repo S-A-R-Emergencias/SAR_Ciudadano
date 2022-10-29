@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/constans.dart';
+import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 
 import '../../Models/person_model.dart';
 import '../../src/services/person_service.dart';
@@ -40,13 +41,19 @@ class ResgisterScreen extends StatelessWidget {
      Future<void> insertPerson() async{
       if(name.text == ""|| lastName.text == ""|| secondLastName.text == "" ||
       ci.text==""||address.text==""||birthDate.text==""|| email.text == ""|| telephone.text == ""|| password.text == ""){
-        print("please fill all fields");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Rellene todos los campos"),
+                      ));
       }else{
         try{
           Person PersonNew = new Person(name: name.text,lastName: lastName.text,secondLastName: secondLastName.text,ci: int.parse(ci.text),address: address.text,birthDate:DateTime.now(),email:
           email.text,telephone:int.parse(telephone.text),password: password.text,role: role);
           PersonService service = PersonService();
           var respuesta = await service.postPerson(PersonNew);
+          Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  SingInScreen())));
         }catch(e){
           print(e);
         }

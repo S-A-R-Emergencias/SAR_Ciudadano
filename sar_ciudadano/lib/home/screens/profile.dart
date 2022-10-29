@@ -256,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.white,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('assets/img/sar.jpg'),
+                    image: NetworkImage('assets/img/sar.jpg'),
                   ),
                 ),
               ),
