@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
+import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
 import 'package:sar_ciudadano/src/reports/report_form.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -15,6 +16,10 @@ class PanicScreen extends StatefulWidget {
 }
 
 class _PanicScreenState extends State<PanicScreen> {
+  String buttonText(){
+    return Environment.usersession == null? "Salir":"Cerrar sesión";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +67,36 @@ class _PanicScreenState extends State<PanicScreen> {
                       color: Color.fromRGBO(238, 238, 238, 1),
                     ),
                   ),
+                  InkWell(
+                    child: 
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 40),
+                      child:
+                        ButtonTheme(
+                          child: TextButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color?>(Color.fromRGBO(253, 112, 19, 1),),
+                              padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+                                  const EdgeInsets.all(10)),
+                            ),
+                            onPressed: () =>  {
+                              Environment.usersession = null,
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>  SingInScreen()))),
+                            },
+                            child:  Text(
+                              buttonText(),
+                              style: TextStyle(
+                                  color: Color(0xB8F7F7F8), fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ),
+                  
                 ],
               ),
               Center(child:
@@ -81,7 +116,8 @@ class _PanicScreenState extends State<PanicScreen> {
                         ), // Border radius
                   ),
                 ),
-                onTap: () {}
+                onTap: () {
+                }
               ),
               ),
               

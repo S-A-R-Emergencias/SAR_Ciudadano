@@ -297,15 +297,22 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<http.Response> SaveInfo(){
+    var response;
     PersonService p = PersonService();
-    per.name = NameController.text;
-    per.lastName = LastnameController.text;
-    per.secondLastName = SecondLastnameController.text;
-    per.email = EmailController.text;
-    per.telephone = int.parse(PhoneController.text);
-    per.address = AddressController.text;
-    print("Ha pasado todo normal");
-    return p.putPerson(per);
+    try{
+      per.name = NameController.text==""? per.name: NameController.text;
+      per.lastName = LastnameController.text==""? per.lastName: LastnameController.text;
+      per.secondLastName = SecondLastnameController.text==""? per.secondLastName: SecondLastnameController.text;
+      per.email = EmailController.text==""? per.email: EmailController.text;
+      per.telephone = PhoneController.text==""? per.telephone: int.parse(PhoneController.text);
+      per.address = AddressController.text==""? per.address:AddressController.text;
+      response =  p.putPerson(per);
+    } catch(ex){
+
+    }
+    return response;
+    
+    
   }
 }
 
