@@ -32,7 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
     String confirmPassword = confirmPasswordController.text;
     String oldPassword = oldPasswordController.text;
     if((newPassword!= "" && confirmPassword!= "" && oldPassword!="") && (confirmPassword == newPassword && newPassword != oldPassword)){
-      final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${Environment.usersession!.email}}/${oldPassword}'));
+      String email = Environment.usersession!.email.toString();
+      final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${oldPassword}'));
       if(response.statusCode == 200 || response.statusCode == 304){
         service.changePassword(newPassword, Environment.usersession!.id!).then((value) => {
         if(value.statusCode == 200){
