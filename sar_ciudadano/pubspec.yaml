@@ -38,6 +38,9 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   syncfusion_flutter_maps: ^20.3.52
 
+  # Firebase Database
+  cloud_firestore: ^4.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

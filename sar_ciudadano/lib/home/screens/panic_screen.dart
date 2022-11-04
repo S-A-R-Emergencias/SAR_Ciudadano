@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
@@ -117,6 +118,7 @@ class _PanicScreenState extends State<PanicScreen> {
                   ),
                 ),
                 onTap: () {
+
                 }
               ),
               ),
@@ -199,6 +201,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                       MaterialPageRoute(
                                           builder: ((context) =>  FormScreen())));
                                 }
+                                
                                 
                               }
                               ),
@@ -413,5 +416,25 @@ class _PanicScreenState extends State<PanicScreen> {
           ]
         ),
       );
+
+      
   }
+  
 }
+
+class Not {
+  String ? id;
+  final String ? description;
+
+  Not({
+    this.id = '',
+    required this.description,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'descrition': description
+  };
+}
+
+

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -12,10 +13,12 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+
   late MapZoomPanBehavior _zoomPanBehavior;
   late MapTileLayerController _controller;
   late MapLatLng _markerPosition;
-  TextEditingController descriptionController = TextEditingController();
+  //TextEditingController descriptionController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   double latitude = 0;
   double longitude = 0;
@@ -255,14 +258,19 @@ class _FormScreenState extends State<FormScreen> {
                               Container(width: 70.0),
                               FloatingActionButton(
                                 onPressed: () {
-                                  
+                                  final noti = Not(
+                                    description: descriptionController.text,
+                                  );
+
+                                  createNotification(noti);
+
                                 },
                                 backgroundColor: Color.fromRGBO(253, 112, 19, 1),
                                 child: const Icon(Icons.send),
                               ),
                             ],
                           ),
-                       ]
+                       ],
                       ),
                     ),
                     
@@ -272,6 +280,14 @@ class _FormScreenState extends State<FormScreen> {
       )
     );
     
+  }
+
+  Future createNotification(Not noti) async {
+    final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
+    noti.id = docNoti.id;
+
+    final json = noti.toJson();
+    await docNoti.set(json);
   }
 }
 
