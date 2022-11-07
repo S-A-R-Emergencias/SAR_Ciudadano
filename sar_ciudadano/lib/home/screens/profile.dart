@@ -27,12 +27,15 @@ class _ProfilePageState extends State<ProfilePage> {
     oldPasswordController.text="";
   }
   //cambio de Contraseña
-  void SavePassword(){
+  Future<void> SavePassword() async {
     String newPassword = newPasswordController.text;
     String confirmPassword = confirmPasswordController.text;
     String oldPassword = oldPasswordController.text;
     if((newPassword!= "" && confirmPassword!= "" && oldPassword!="") && (confirmPassword == newPassword && newPassword != oldPassword)){
-      service.changePassword(newPassword, Environment.usersession!.id!).then((value) => {
+      String email = Environment.usersession!.email.toString();
+      final response = await http.get(Uri.parse('${Environment.apiURL}/person/login/${email}/${oldPassword}'));
+      if(response.statusCode == 200 || response.statusCode == 304){
+        service.changePassword(newPassword, Environment.usersession!.id!).then((value) => {
         if(value.statusCode == 200){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                           content: Text("Contraseña actualizada correctamente"))),
@@ -44,6 +47,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                           content: Text("Ha ocurrido un error al actualizar la contraseña")))
         }
       });
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          content: Text("La contraseña no coincide con la del usuario")));
+      }
+      
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          content: Text("Las contraseñas no coinciden")));
     }
   }
   //campo que muestra los datos
@@ -149,8 +161,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       InkWell(
                         onTap: (){
-                          SavePassword();
-                          Navigator.of(context).pop();
+                          SavePassword().then((value){
+                            Navigator.of(context).pop();
+                          });
                         },
                         child: Container(
                           padding: EdgeInsets.all(20),
