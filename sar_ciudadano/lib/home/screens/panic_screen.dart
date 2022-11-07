@@ -6,6 +6,7 @@ import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
 import 'package:sar_ciudadano/src/reports/report_form.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(const PanicScreen());
 
@@ -117,8 +118,8 @@ class _PanicScreenState extends State<PanicScreen> {
                         ), // Border radius
                   ),
                 ),
-                onTap: () {
-
+                onTap: () async {
+                  requestPermission();
                 }
               ),
               ),
@@ -419,22 +420,92 @@ class _PanicScreenState extends State<PanicScreen> {
 
       
   }
+
+    Future createNotFast(NotFast noti) async {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
+      noti.body = 'sin descripcion';
+      noti.image =
+          "https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+      noti.name = Environment.usersession!.name! +
+          " " +
+          Environment.usersession!.lastName!;
+      noti.latitude = position.latitude;
+      noti.longitude = position.longitude;
+
+      final json = noti.toJson();
+      await docNoti.set(json);
+    }
+
+    requestPermission() async{
+      LocationPermission permission = await Geolocator.requestPermission();
+      if(permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+        final noti = NotFast();
+        createNotFast(noti);
+      }else{
+        requestPermission();
+      }
+    }
   
 }
 
 class Not {
-  String ? id;
-  final String ? description;
-
-  Not({
-    this.id = '',
-    required this.description,
-  });
+  String? body, image, name;
+  bool? isChecked = false;
+  bool? normal_Panic = false;
+  double? latitude, longitude;
+  String? time =
+      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+  String? type = "Incendio";
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'descrition': description
-  };
+        'body': body,
+        'image': image,
+        'isChecked': isChecked,
+        'name': name,
+        'normal_Panic': normal_Panic,
+        'time': time,
+        'type': type,
+        'latitude': latitude,
+        'longitude': longitude
+      };
 }
+
+class NotFast {
+  String? body, image, name;
+  bool? isChecked = false;
+  bool? normal_Panic = true;
+  double? latitude, longitude;
+  String? time =
+      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+  String? type = "Incendio";
+
+  Map<String, dynamic> toJson() => {
+        'body': body,
+        'image': image,
+        'isChecked': isChecked,
+        'name': name,
+        'normal_Panic': normal_Panic,
+        'time': time,
+        'type': type,
+        'latitude': latitude,
+        'longitude': longitude
+      };
+}
+
+//class Not {
+//  String ? id;
+//  final String ? description;
+
+//  Not({
+//    this.id = '',
+//    required this.description,
+//  });
+
+//  Map<String, dynamic> toJson() => {
+//    'id': id,
+//    'descrition': description
+//  };
+//}
 
 

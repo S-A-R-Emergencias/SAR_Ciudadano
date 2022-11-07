@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
+import '../global/environment.dart';
+
 void main() => runApp( FormScreen());
 
 class FormScreen extends StatefulWidget {
@@ -258,11 +260,17 @@ class _FormScreenState extends State<FormScreen> {
                               Container(width: 70.0),
                               FloatingActionButton(
                                 onPressed: () {
-                                  final noti = Not(
-                                    description: descriptionController.text,
-                                  );
+                                  //final noti = Not(
+                                  //  description: descriptionController.text,
+                                  //);
+                                  final noti = Not();
 
                                   createNotification(noti);
+                                  descriptionController.text = "";
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => PanicScreen())));
 
                                 },
                                 backgroundColor: Color.fromRGBO(253, 112, 19, 1),
@@ -282,13 +290,29 @@ class _FormScreenState extends State<FormScreen> {
     
   }
 
-  Future createNotification(Not noti) async {
+//  Future createNotification(Not noti) async {
+//    final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
+//    noti.id = docNoti.id;
+
+//    final json = noti.toJson();
+//    await docNoti.set(json);
+//  }
+
+Future createNotification(Not noti) async {
     final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
-    noti.id = docNoti.id;
+    noti.body = descriptionController.text;
+    noti.image =
+        "https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+    noti.name = Environment.usersession!.name! +
+        " " +
+        Environment.usersession!.lastName!;
+    noti.latitude = latitude;
+    noti.longitude = longitude;
 
     final json = noti.toJson();
     await docNoti.set(json);
   }
+
 }
 
 class _CustomZoomPanBehavior extends MapZoomPanBehavior {
