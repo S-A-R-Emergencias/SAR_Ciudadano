@@ -5,10 +5,12 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../global/environment.dart';
 
-void main() => runApp( FormScreen());
+void main() => runApp( FormScreen(type:"No especificado"));
 
 class FormScreen extends StatefulWidget {
-  FormScreen({Key? key}) : super(key: key);
+  FormScreen({Key? key, required this.type}) : super(key: key);
+  String type;
+  
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -265,7 +267,7 @@ class _FormScreenState extends State<FormScreen> {
                                   //);
                                   final noti = Not();
 
-                                  createNotification(noti);
+                                  createNotification(noti,widget.type);
                                   descriptionController.text = "";
                                   Navigator.push(
                                       context,
@@ -290,24 +292,16 @@ class _FormScreenState extends State<FormScreen> {
     
   }
 
-//  Future createNotification(Not noti) async {
-//    final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
-//    noti.id = docNoti.id;
-
-//    final json = noti.toJson();
-//    await docNoti.set(json);
-//  }
-
-Future createNotification(Not noti) async {
+Future createNotification(Not noti,String type) async {
     final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
     noti.body = descriptionController.text;
     noti.image =
         "https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
-    noti.name = Environment.usersession!.name! +
-        " " +
-        Environment.usersession!.lastName!;
+    noti.name = Environment.usersession!.name! + " " + Environment.usersession!.lastName!;
+    noti.email = Environment.usersession!.email!;
     noti.latitude = latitude;
     noti.longitude = longitude;
+    noti.type = type;
 
     final json = noti.toJson();
     await docNoti.set(json);

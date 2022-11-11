@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sar_ciudadano/Models/person_model.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
@@ -20,6 +22,10 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController EmailController = TextEditingController();
   final TextEditingController PhoneController = TextEditingController();
   final TextEditingController AddressController = TextEditingController();
+  final picker = ImagePicker();
+  PersonService service = PersonService();
+  XFile? pickedFile;
+  String newImage ="";
 
 
   void initializeText(){
@@ -36,6 +42,127 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     initializeText();
   }
+
+  Widget ProfileImage(){
+    if(Environment.usersession!.image==null){
+      return Image.network('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+    }
+    else{
+      return Image.memory(base64Decode(Environment.usersession!.image.toString()));
+    }
+  }
+
+  //Agarre de imagen
+  Future selImagen(op) async{
+  if(op == 1){
+    await picker.pickImage(source: ImageSource.camera).then((value) => pickedFile = value);
+
+  }else{
+    await picker.pickImage(source: ImageSource.gallery).then((value) => pickedFile = value);
+  }
+  if(pickedFile != null ){
+      try{
+        final bytes = await pickedFile!.readAsBytes();
+        newImage = base64Encode(bytes);
+        Environment.usersession!.image = base64Encode(bytes);
+        setState(() {});
+        
+      } catch (e) {
+        print(e);
+      }
+    }else{
+      SnackBar(
+        content: const Text('No ha seleccionado una imagen'),
+      );
+    }
+  }
+
+  opciones (context){
+  showDialog(
+    context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              InkWell(
+                onTap: (){
+                  selImagen(1);
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(width: 1, color: Colors.orange))
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Tomar una foto ',  style: TextStyle(
+                          fontSize: 16
+                        ),),
+                        ),
+                        Icon(Icons.camera_alt, color: Colors.orange)
+                    ],
+                    ),
+
+                ),
+              ),
+               InkWell(
+                onTap: (){
+                  selImagen(2);
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+               
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Selecciona una foto',  style: TextStyle(
+                          fontSize: 16
+
+                        ),),
+                        ),
+                        Icon(Icons.image, color: Colors.orange)
+                    ],
+                    ),
+
+                ),
+              ),
+               InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.red
+                  ),
+
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Cancelar',  style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white
+                        ), textAlign:TextAlign.center ),
+                        ),
+                    ],
+                    ),
+                ),
+              )
+            ],
+            ),
+         ),
+
+      );
+    }
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -85,15 +212,7 @@ class _EditProfileState extends State<EditProfile> {
                 padding: EdgeInsets.all(10.0),
                 width: 230,
                 height: 230,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 5),
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage('assets/img/sar.jpg'),
-                  ),
-                ),
+                child: ProfileImage()
               ),
             ],
           ),
@@ -285,7 +404,7 @@ class _EditProfileState extends State<EditProfile> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  
+                  opciones (context);
                 },
               ),
             ),

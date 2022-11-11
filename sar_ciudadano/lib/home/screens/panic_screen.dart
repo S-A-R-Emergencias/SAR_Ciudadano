@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/home/screens/profile.dart';
@@ -22,6 +24,81 @@ class _PanicScreenState extends State<PanicScreen> {
     return Environment.usersession == null? "Salir":"Cerrar sesión";
   }
 
+  opciones (context){
+  showDialog(
+    context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text("ADVERTENCIA: Todos tus datos serán usados"),
+              InkWell(
+                onTap: (){
+                  requestPermission();
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+               
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Enviar emergencia',  style: TextStyle(
+                          fontSize: 16
+
+                        ),),
+                        ),
+                        Icon(Icons.image, color: Colors.orange)
+                    ],
+                    ),
+
+                ),
+              ),
+               InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.red
+                  ),
+
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Cancelar',  style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white
+                        ), textAlign:TextAlign.center ),
+                        ),
+                    ],
+                    ),
+                ),
+              )
+            ],
+            ),
+         ),
+
+      );
+    }
+  );
+}
+  
+  Widget ProfileImage(){
+     if(Environment.usersession != null && Environment.usersession!.image != null){
+      print("SE ENTRO DONDE NO ES");
+      return Image.memory(base64Decode(Environment.usersession!.image.toString()));
+    }
+    else{
+      return Image.network('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +113,7 @@ class _PanicScreenState extends State<PanicScreen> {
                     margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
                     width: 120,
                     height: 120,
-                    decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage('assets/img/sar.jpg'),
-                      fit: BoxFit.fill
-                    ),
-                    ),
+                    child: ProfileImage()
                   ),
                   onTap: (){
                     if(Environment.usersession == null)
@@ -119,7 +190,7 @@ class _PanicScreenState extends State<PanicScreen> {
                   ),
                 ),
                 onTap: () async {
-                  requestPermission();
+                  opciones(context);
                 }
               ),
               ),
@@ -200,7 +271,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type:"Incendio"))));
                                 }
                                 
                                 
@@ -242,7 +313,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type: "Inundación",))));
                                 }
                               }
                               ),
@@ -280,7 +351,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type: "Accidente Vial"))));
                                 }
                               }
                               ),
@@ -323,7 +394,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type: "Rescate"))));
                                 }
                               }
                               ),
@@ -363,7 +434,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type:"Derrumbe"))));
                                 }
                               }
                               ),
@@ -401,7 +472,7 @@ class _PanicScreenState extends State<PanicScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) =>  FormScreen())));
+                                          builder: ((context) =>  FormScreen(type:"Otro"))));
                                 }
                               }
                               ),
@@ -425,11 +496,25 @@ class _PanicScreenState extends State<PanicScreen> {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
       noti.body = 'sin descripcion';
-      noti.image =
-          "https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+      noti.image ="https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
       noti.name = Environment.usersession!.name! +
           " " +
           Environment.usersession!.lastName!;
+      noti.email = Environment.usersession!.email!;
+      noti.latitude = position.latitude;
+      noti.longitude = position.longitude;
+
+      final json = noti.toJson();
+      await docNoti.set(json);
+    }
+
+    Future createNotAnonimous(AnonimousNot noti) async {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
+      noti.body = 'sin descripcion';
+      noti.image ="https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+      noti.name = "Anónimo";
+      noti.email = "No especificado";
       noti.latitude = position.latitude;
       noti.longitude = position.longitude;
 
@@ -440,8 +525,15 @@ class _PanicScreenState extends State<PanicScreen> {
     requestPermission() async{
       LocationPermission permission = await Geolocator.requestPermission();
       if(permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-        final noti = NotFast();
-        createNotFast(noti);
+        final notiFast  = NotFast();
+        final AnonimousNoti  = AnonimousNot();
+        if(Environment.usersession == null){
+          createNotAnonimous(AnonimousNoti);
+        }
+        else{
+          createNotFast(notiFast);
+        }
+        
       }else{
         requestPermission();
       }
@@ -450,13 +542,13 @@ class _PanicScreenState extends State<PanicScreen> {
 }
 
 class Not {
-  String? body, image, name;
+  String? body, image, name, email;
   bool? isChecked = false;
   bool? normal_Panic = false;
   double? latitude, longitude;
   String? time =
-      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
-  String? type = "Incendio";
+  DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+  String? type = "No especificado";
 
   Map<String, dynamic> toJson() => {
         'body': body,
@@ -472,13 +564,13 @@ class Not {
 }
 
 class NotFast {
-  String? body, image, name;
+  String? body, image, name, email;
   bool? isChecked = false;
-  bool? normal_Panic = true;
+  int? normal_Panic = 0;
   double? latitude, longitude;
   String? time =
       DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
-  String? type = "Incendio";
+  String? type = "EMERGENCIA!";
 
   Map<String, dynamic> toJson() => {
         'body': body,
@@ -493,19 +585,27 @@ class NotFast {
       };
 }
 
-//class Not {
-//  String ? id;
-//  final String ? description;
+class AnonimousNot {
+  String? body, image, name, email;
+  bool? isChecked = false;
+  int? normal_Panic = 3;
+  double? latitude, longitude;
+  String? time =
+      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+  String? type = "No especificado";
 
-//  Not({
-//    this.id = '',
-//    required this.description,
-//  });
-
-//  Map<String, dynamic> toJson() => {
-//    'id': id,
-//    'descrition': description
-//  };
-//}
+  Map<String, dynamic> toJson() => {
+        'body': body,
+        'image': image,
+        'isChecked': isChecked,
+        'name': name,
+        'normal_Panic': normal_Panic,
+        'time': time,
+        'type': type,
+        'email': email,
+        'latitude': latitude,
+        'longitude': longitude
+      };
+}
 
 

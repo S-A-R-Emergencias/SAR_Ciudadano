@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
@@ -20,6 +23,17 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   PersonService service = PersonService();
+  
+
+  Widget ProfileImage(){
+    if(Environment.usersession!.image==null){
+      return Image.network('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+    }
+    else{
+      return Image.memory(base64Decode(Environment.usersession!.image.toString()));
+    }
+  }
+  
   //Limpiar campos
   void CleanInputs(){
     newPasswordController.text = "";
@@ -263,15 +277,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.all(10.0),
                 width: 230,
                 height: 230,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 5),
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage('assets/img/sar.jpg'),
-                  ),
-                ),
+                child: ProfileImage(),
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 10, left: 184),

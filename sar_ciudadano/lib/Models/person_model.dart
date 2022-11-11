@@ -19,6 +19,7 @@ class Person {
         required this.birthDate,
         required this.email,
         required this.telephone,
+        this.image,
         this.status,
         this.registerDate,
         this.lastUpdate,
@@ -35,6 +36,7 @@ class Person {
     DateTime? birthDate;
     String? email;
     int? telephone;
+    String? image;
     int? status;
     DateTime? registerDate;
     DateTime? lastUpdate;
@@ -51,6 +53,7 @@ class Person {
         birthDate: json["birthDate"] == null ? null : DateTime.parse(json["birthDate"]),
         email: json["email"] == null ? null : json["email"],
         telephone: json["telephone"] == null ? null : json["telephone"],
+        image: json["image"] == null ? null : json["image"],
         status: json["status"] == null ? null : json["status"],
         registerDate: json["registerDate"] == null ? null : DateTime.parse(json["registerDate"]),
         lastUpdate: json["lastUpdate"] == null ? null : DateTime.parse(json["lastUpdate"]),
@@ -73,6 +76,7 @@ class Person {
         "lastUpdate": lastUpdate == null ? null : lastUpdate?.toString(),
         "password": password == null ? null : password,
         "role": role == null ? null : role.toString(),
+        "image": image == null ? null : image,
     };
 
     Map<String, dynamic> toInsertJson() => {
@@ -86,5 +90,6 @@ class Person {
         "telephone": telephone == null ? null : telephone,
         "password": password == null ? null : password,
         "role": role == null ? null : role.toString(),
+        "image": image == null ? null : image,
     };
 }
