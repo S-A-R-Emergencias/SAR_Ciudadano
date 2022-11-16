@@ -495,7 +495,7 @@ class _PanicScreenState extends State<PanicScreen> {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
       noti.body = 'sin descripcion';
-      noti.image ="https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+      noti.image =Environment.usersession!.image == null? "":Environment.usersession!.image;
       noti.name = Environment.usersession!.name! +
           " " +
           Environment.usersession!.lastName!;
@@ -511,7 +511,7 @@ class _PanicScreenState extends State<PanicScreen> {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
       noti.body = 'sin descripcion';
-      noti.image ="https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+      noti.image = "";
       noti.name = "Anónimo";
       noti.email = "No especificado";
       noti.latitude = position.latitude;
@@ -541,17 +541,18 @@ class _PanicScreenState extends State<PanicScreen> {
 }
 
 class Not {
-  String? body, image, name, email;
+  String? body, image, name, email,notificationImage="";
   bool? isChecked = false;
   int? normal_Panic = 1;
   double? latitude, longitude;
   String? time =
-  DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+  DateTime.now().toString();
   String? type = "No especificado";
 
   Map<String, dynamic> toJson() => {
         'body': body,
         'image': image,
+        'notificationImage':notificationImage,
         'isChecked': isChecked,
         'name': name,
         'normal_Panic': normal_Panic,
@@ -564,17 +565,18 @@ class Not {
 }
 
 class NotFast {
-  String? body, image, name, email;
+  String? body, image, name, email,notificationImage="";
   bool? isChecked = false;
   int? normal_Panic = 0;
   double? latitude, longitude;
   String? time =
-      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+      DateTime.now().toString();
   String? type = "EMERGENCIA!";
 
   Map<String, dynamic> toJson() => {
         'body': body,
         'image': image,
+        'notificationImage':notificationImage,
         'isChecked': isChecked,
         'name': name,
         'normal_Panic': normal_Panic,
@@ -587,17 +589,18 @@ class NotFast {
 }
 
 class AnonimousNot {
-  String? body, image, name, email;
+  String? body, image, name, email,notificationImage="";
   bool? isChecked = false;
   int? normal_Panic = 2;
   double? latitude, longitude;
   String? time =
-      DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+      DateTime.now().toString();
   String? type = "No especificado";
 
   Map<String, dynamic> toJson() => {
         'body': body,
         'image': image,
+        'notificationImage':notificationImage,
         'isChecked': isChecked,
         'name': name,
         'normal_Panic': normal_Panic,

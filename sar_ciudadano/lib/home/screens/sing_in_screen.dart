@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/Models/person_model.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
-import 'package:sar_ciudadano/home/screens/profile.dart';
 import 'package:sar_ciudadano/home/screens/register_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';

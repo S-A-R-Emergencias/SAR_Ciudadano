@@ -1,17 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:html';
-
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
-
 import '../../Models/person_model.dart';
 import '../../src/services/person_service.dart';
-
-
-import 'package:http/http.dart' as http;
 
 void main() => runApp(const ResgisterScreen());
     

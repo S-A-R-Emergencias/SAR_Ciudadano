@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sar_ciudadano/constans.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
-import 'package:sar_ciudadano/home/screens/sing_in_screen.dart';
 import 'package:sar_ciudadano/src/global/environment.dart';
 import 'package:http/http.dart' as http;
 import 'package:sar_ciudadano/src/services/person_service.dart';

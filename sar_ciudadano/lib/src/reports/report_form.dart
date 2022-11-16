@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sar_ciudadano/home/screens/panic_screen.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
@@ -23,6 +26,9 @@ class _FormScreenState extends State<FormScreen> {
   late MapLatLng _markerPosition;
   //TextEditingController descriptionController = TextEditingController();
   final descriptionController = TextEditingController();
+  XFile? pickedFile;
+  String newImage ="";
+  final picker = ImagePicker();
 
   double latitude = 0;
   double longitude = 0;
@@ -48,6 +54,116 @@ class _FormScreenState extends State<FormScreen> {
     
     
   }
+
+  Future selImagen(op) async{
+  if(op == 1){
+    await picker.pickImage(source: ImageSource.camera).then((value) => pickedFile = value);
+
+  }else{
+    await picker.pickImage(source: ImageSource.gallery).then((value) => pickedFile = value);
+  }
+  if(pickedFile != null ){
+      try{
+        final bytes = await pickedFile!.readAsBytes();
+        newImage = base64Encode(bytes);
+        setState(() {});
+        
+      } catch (e) {
+        print(e);
+      }
+    }else{
+      SnackBar(
+        content: const Text('No ha seleccionado una imagen'),
+      );
+    }
+  }
+
+  opciones (context){
+  showDialog(
+    context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              InkWell(
+                onTap: (){
+                  selImagen(1);
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(width: 1, color: Colors.orange))
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Tomar una foto ',  style: TextStyle(
+                          fontSize: 16
+                        ),),
+                        ),
+                        Icon(Icons.camera_alt, color: Colors.orange)
+                    ],
+                    ),
+
+                ),
+              ),
+               InkWell(
+                onTap: (){
+                  selImagen(2);
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+               
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Selecciona una foto',  style: TextStyle(
+                          fontSize: 16
+
+                        ),),
+                        ),
+                        Icon(Icons.image, color: Colors.orange)
+                    ],
+                    ),
+
+                ),
+              ),
+               InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.red
+                  ),
+
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Cancelar',  style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white
+                        ), textAlign:TextAlign.center ),
+                        ),
+                    ],
+                    ),
+                ),
+              )
+            ],
+            ),
+         ),
+
+      );
+    }
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +341,7 @@ class _FormScreenState extends State<FormScreen> {
                                     child: IconButton(
                                       icon: Icon(Icons.camera,color: Colors.white, size: 40,),
                                       tooltip: 'Abrir Cámara',
-                                      onPressed: () {},
+                                      onPressed: () {opciones(context);},
                                     ),
                                   ),
                               ),
@@ -240,21 +356,6 @@ class _FormScreenState extends State<FormScreen> {
                                     child: IconButton(
                                       icon: Icon(Icons.video_camera_front,color: Colors.white, size: 40,),
                                       tooltip: 'Grabar Video',
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                              ),
-                              Container(width: 70.0),
-                              ClipRRect(
-                                borderRadius:
-                                BorderRadius.circular(10),
-                                  child: Container(
-                                    color: Color.fromRGBO(40, 54, 84, 1),
-                                    width: 60,
-                                    height: 60,
-                                    child: IconButton(
-                                      icon: Icon(Icons.mic,color: Colors.white, size: 40,),
-                                      tooltip: 'Grabar Audio',
                                       onPressed: () {},
                                     ),
                                   ),
@@ -295,9 +396,9 @@ class _FormScreenState extends State<FormScreen> {
 Future createNotification(Not noti,String type) async {
     final docNoti = FirebaseFirestore.instance.collection('notificacion').doc();
     noti.body = descriptionController.text;
-    noti.image =
-        "https://res.cloudinary.com/dza50jbso/image/upload/v1667164091/777_person.jpg";
+    noti.image =Environment.usersession!.image == null? "":Environment.usersession!.image;
     noti.name = Environment.usersession!.name! + " " + Environment.usersession!.lastName!;
+    noti.notificationImage = newImage;
     noti.email = Environment.usersession!.email!;
     noti.latitude = latitude;
     noti.longitude = longitude;
