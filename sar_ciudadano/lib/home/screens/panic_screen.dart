@@ -50,7 +50,7 @@ class _PanicScreenState extends State<PanicScreen> {
 
                         ),),
                         ),
-                        Icon(Icons.image, color: Colors.orange)
+                        Icon(Icons.dangerous, color: Colors.black)
                     ],
                     ),
 

@@ -8,7 +8,7 @@ import '../../src/services/person_service.dart';
 void main() => runApp(const ResgisterScreen());
     
     
-class ResgisterScreen extends StatelessWidget {
+class ResgisterScreen extends StatefulWidget {
 
   
   const ResgisterScreen({
@@ -16,9 +16,12 @@ class ResgisterScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<ResgisterScreen> createState() => _ResgisterScreenState();
+}
 
-    final String role="a";
+class _ResgisterScreenState extends State<ResgisterScreen> {
+  DateTime? pickDate;
+  final String role="0";
     TextEditingController name = new TextEditingController();
     TextEditingController lastName = new TextEditingController();
     TextEditingController secondLastName = new TextEditingController();
@@ -29,6 +32,11 @@ class ResgisterScreen extends StatelessWidget {
     TextEditingController telephone = new TextEditingController();
     TextEditingController password = new TextEditingController();
     TextEditingController password2 = new TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+
+    
+    
 
      Future<void> insertPerson() async{
       if(name.text == ""|| lastName.text == ""|| secondLastName.text == "" ||
@@ -38,14 +46,11 @@ class ResgisterScreen extends StatelessWidget {
                       ));
       }else{
         try{
-          Person PersonNew = new Person(name: name.text,lastName: lastName.text,secondLastName: secondLastName.text,ci: int.parse(ci.text),address: address.text,birthDate:DateTime.now(),email:
+          Person PersonNew = new Person(name: name.text,lastName: lastName.text,secondLastName: secondLastName.text,ci: int.parse(ci.text),address: address.text,birthDate:pickDate,email:
           email.text,telephone:int.parse(telephone.text),password: password.text,role: role);
           PersonService service = PersonService();
           var respuesta = await service.postPerson(PersonNew);
-          Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>  SingInScreen())));
+          
         }catch(e){
           print(e);
         }
@@ -77,7 +82,7 @@ class ResgisterScreen extends StatelessWidget {
                   child: TextField(
                     controller: name,
                     decoration: InputDecoration(
-                      hintText: "name",
+                      hintText: "Nombre",
                       border: InputBorder.none,
                       icon: Icon(Icons.account_circle),
                     ),
@@ -101,7 +106,7 @@ class ResgisterScreen extends StatelessWidget {
                   child: TextField(
                     controller:lastName,
                     decoration: InputDecoration(
-                      hintText: 'lastName',
+                      hintText: 'Apellido',
                       border: InputBorder.none,
                       icon: Icon(Icons.account_balance),
                     ),
@@ -124,7 +129,7 @@ class ResgisterScreen extends StatelessWidget {
                   child: TextField(
                     controller: secondLastName,
                     decoration: InputDecoration(
-                      hintText: 'secondLastName',
+                      hintText: 'Apellido Materno',
                       border: InputBorder.none,
                       icon: Icon(Icons.account_balance),
                     ),
@@ -170,7 +175,7 @@ class ResgisterScreen extends StatelessWidget {
                   child: TextField(
                     controller: address,
                     decoration: InputDecoration(
-                      hintText: 'address',
+                      hintText: 'Dirección',
                       border: InputBorder.none,
                       icon: Icon(Icons.directions),
                     ),
@@ -182,25 +187,43 @@ class ResgisterScreen extends StatelessWidget {
               height: 15,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xB8F7F7F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child:  Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TextField(
-                    controller: birthDate,
-                    decoration: InputDecoration(
-                      hintText: 'birthDate',
-                      border: InputBorder.none,
-                      icon: Icon(Icons.date_range),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xB8F7F7F8),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: TextField(
+                        readOnly: true,
+                        onTap:() async {
+                          DateTime? pickedDate;
+                          pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime.now());
+                          if(pickedDate!= null){
+                            try{
+                              birthDate.text = pickedDate.year.toString() + "-" + pickedDate.month.toString() + "-" + pickedDate.day.toString();
+                              pickDate = pickedDate;
+                            }catch (e) {
+                              print("ERROR");
+                            }
+                          }
+                          setState(() {
+                            
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Fecha de Nacimiento',
+                          border: InputBorder.none,
+                          icon: Icon(Icons.date_range),
+                        ),
+                        controller: birthDate,
+                        
+                        
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
             SizedBox(
               height: 15,
             ),
@@ -216,7 +239,7 @@ class ResgisterScreen extends StatelessWidget {
                   child: TextField(
                     controller: telephone,
                     decoration: InputDecoration(
-                      hintText: 'telephone',
+                      hintText: 'Telefono',
                       border: InputBorder.none,
                       icon: Icon(Icons.numbers),
                     ),
@@ -258,9 +281,10 @@ class ResgisterScreen extends StatelessWidget {
                 child:  Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    obscureText: true,
                     controller: password,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: 'Contraseña',
                       border: InputBorder.none,
                       icon: Icon(Icons.lock),
                     ),
@@ -279,7 +303,13 @@ class ResgisterScreen extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
                       const EdgeInsets.all(10)),
                 ),
-                onPressed: insertPerson,
+                onPressed: (){
+                  insertPerson();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>  SingInScreen())));
+                },
                 child: const Text(
                   "CREAR CUENTA",
                   style: TextStyle(
@@ -292,5 +322,4 @@ class ResgisterScreen extends StatelessWidget {
       ),
     );
   }
-
 }
