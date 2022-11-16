@@ -90,7 +90,6 @@ class _PanicScreenState extends State<PanicScreen> {
   
   Widget ProfileImage(){
      if(Environment.usersession != null && Environment.usersession!.image != null){
-      print("SE ENTRO DONDE NO ES");
       return Image.memory(base64Decode(Environment.usersession!.image.toString()));
     }
     else{
@@ -136,7 +135,7 @@ class _PanicScreenState extends State<PanicScreen> {
                     Environment.usersession == null? "Anónimo" : Environment.usersession!.name!,
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       color: Color.fromRGBO(238, 238, 238, 1),
                     ),
                   ),
