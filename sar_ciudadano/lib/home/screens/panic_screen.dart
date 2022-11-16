@@ -544,7 +544,7 @@ class _PanicScreenState extends State<PanicScreen> {
 class Not {
   String? body, image, name, email;
   bool? isChecked = false;
-  bool? normal_Panic = false;
+  int? normal_Panic = 1;
   double? latitude, longitude;
   String? time =
   DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
@@ -558,6 +558,7 @@ class Not {
         'normal_Panic': normal_Panic,
         'time': time,
         'type': type,
+        'mail': email,
         'latitude': latitude,
         'longitude': longitude
       };
@@ -580,6 +581,7 @@ class NotFast {
         'normal_Panic': normal_Panic,
         'time': time,
         'type': type,
+        'mail': email,
         'latitude': latitude,
         'longitude': longitude
       };
@@ -588,7 +590,7 @@ class NotFast {
 class AnonimousNot {
   String? body, image, name, email;
   bool? isChecked = false;
-  int? normal_Panic = 3;
+  int? normal_Panic = 2;
   double? latitude, longitude;
   String? time =
       DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
@@ -602,7 +604,7 @@ class AnonimousNot {
         'normal_Panic': normal_Panic,
         'time': time,
         'type': type,
-        'email': email,
+        'mail': email,
         'latitude': latitude,
         'longitude': longitude
       };
